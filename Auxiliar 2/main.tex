@@ -1,0 +1,38 @@
+\documentclass{article}
+\input{imports.tex}
+\input{config.tex}
+
+\begin{document}
+\input{datos-ONL.tex}
+
+\begin{center}
+    \Huge{\textbf{Auxiliar 2}}\\
+\textit{\large{Ejemplos de regresiones}}\\
+    \normalsize
+	28 de marzo de 2025
+\end{center}
+
+\begin{enumerate}
+	\item \textbf{(Predicción de tiempos de viaje para buses)} Discuta el problema de predecir el tiempo que un bus en una ruta predefinida tarda en viajar entre una parada y la siguiente. Proponga y justifique un buen modelo para el predictor así como posibles variables a medir para ajustar este modelo.
+
+	\item \textbf{(Estimación recursiva de mínimos cuadrados)} Sea \(x \in \R^n\) un vector que se desea estimar a partir de mediciones \(y \in \R^k\) obtenidas realizando una trasnformación linear ruidosa de \(x\):
+		\[y = Hx + v, \qquad (H \in \R^{k \times n},v \in \R^k)\]
+		en que \(v_i\) se interpreta como el \textit{ruido} asociado a la medición \(i\)-ésima. Asumieremos que estos ruidos son independientes entre si y de media cero.
+		\begin{enumerate}
+			\item \textbf{(Mínimos cuadrados clásico)} Dado \(i \in \R^k, H \in \R^{k \times n}\) en que \(k \leq n\) y \(H\) tiene rango completo, obtenga el estimador \(\hat{x}\) que minimiza el error cuadrático
+				\[J(\hat{x}) = \norm{\epsilon}_2^2\]
+				en que \(\epsilon := y - H\hat{x}\)
+			\item \textbf{(Mínimos cuadrados con pesos)} Supongamos ahora que los \(v_j\) tienen diferentes varianzas conocidas que queremos considerar. Digamos \(\E[v_j^2] = \sigma_j^2\) \(j = 1, \dots, k\). Ya que son independientes, obtenemos la matriz diagonal de covarianza:
+				\[R = \E[vv^\top] = \diag(\sigma_1^2, \dots, \sigma_k^2).\]
+				Encuentre el \(\hat{x} \in \R^n\) que minimiza el funcional de error cuadrático ponderado
+				\[J(\hat{x}) = \sum_{j=1}^k \frac{\epsilon_j^2}{\sigma_j^2}\]
+				en que \(\epsilon_j = y_j - \sum_{i=1}^n H_{ji} \hat{x}_i\).
+			\item \textbf{(Mínimos cuadrados recursivos)} Si tenemos muchos experimentos, el cálculo del estimador \(\hat{x}\) puede ser complejo de rehacer desde cero ante la llegada de un nuevo dato \(y_k \in \R\). Buscamos un modelo de tipo
+				\[\hat{x}_k = \hat{x}_{k-1} + K_k (y_k - H_k \hat{x}_{k-1})\]
+				en que \(y_k = H_k x + v_k\) y \(K_k\) (matriz de ganancia) se debe determinar para minimizar el error cuadrático medio
+				\[J_k(K_k) = \E[\epsilon_k^\top \epsilon_k]\]
+				en que \(\epsilon_k = x - \hat{x}_k\). Obtenga un procedimiento recursivo que permita actualizar \(\hat{x}_k\) dinámicamente.
+		\end{enumerate}
+\end{enumerate}
+
+\end{document}
