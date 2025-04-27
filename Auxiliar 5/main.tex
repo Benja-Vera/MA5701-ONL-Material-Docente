@@ -1,0 +1,33 @@
+\documentclass{article}
+\input{imports.tex}
+\input{config.tex}
+
+\begin{document}
+\input{datos-ONL.tex}
+
+\begin{center}
+    \Huge{\textbf{Auxiliar 5}}\\
+\textit{\large{Búsqueda de Línea}}\\
+    \normalsize
+	25 de abril de 2025
+\end{center}
+
+\begin{enumerate}
+	\item \textbf{(Desigualdad de Kantorovich)} Sea \(Q \in \S^n_{++}\) y asuma que sus valores propios son \(0 < \lambda_1 \leq \dots \leq \lambda_n\). Pruebe que para \(x \in \R^n\), se tiene que:
+		\[\frac{(x^\top Q x)(x^\top Q^{-1}x)}{(x^\top x)^2} \leq \frac{(\lambda_1 + \lambda_n)^2}{4\lambda_1\lambda_n}\]
+		\textit{Indicación:} Utilice la desigualdad aritmética - geométrica: \(\sqrt{xy} \leq \frac12 (x+y)\).
+	\item \textbf{(Búsqueda de línea exacta sobre funciones cuadráticas)} Sea \(Q \in \S^n_{++}, b \in \R^n\). Consideramos el problema de minimizar la función cuadrática
+		\[f(x) = \frac12 x^\top Q x - b^\top x\]
+		En que \(x^*\) solución de \(Qx^* = b\) es el único mínimo global de \(f\). Consideremos el método del máximo descenso
+		\[x_{k+1} = x_k - \alpha_k \grad{f}(x_k)\]
+		en que \(\alpha_k\) se escoge para minimizar la función escalar \(\alpha \mapsto f(x_k - \alpha\grad{f}(x_k))\).
+		\begin{enumerate}
+			\item Obtenga una fórmula explícita para \(\alpha_k\) y en consecuencia para la iteración del máximo descenso.
+			\item Sea \(E(x) = \frac12 (x - x^*)^\top Q (x - x^*) = \frac12 \norm{x - x^*}^2_Q\). Pruebe que \(E(x) = f(x) + \frac12 x^{*\top}Qx^*\), de modo que basta establecer propiedades de convergencia sobre el método de descenso de gradiente sobre \(E\).
+			\item Pruebe que se satisface
+				\[E(x_{k+1}) = \qty[1 - \frac{\qty(\grad{f}(x_k)^\top \grad{f}(x_k))^2}{\qty(\grad{f}(x_k)^\top Q \grad{f}(x_k))\qty(\grad{f}(x_k)^\top Q^{-1} \grad{f}(x_k))}] E(x_k)\]
+			\item Aplique la desigualdad de Kantorovich para describir cualitativamente la convergencia del método del máximo descenso con paso exacto.
+		\end{enumerate}
+\end{enumerate}
+
+\end{document}
