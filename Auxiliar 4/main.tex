@@ -1,0 +1,26 @@
+\documentclass{article}
+\input{imports.tex}
+\input{config.tex}
+
+\begin{document}
+\input{datos-ONL.tex}
+
+\begin{center}
+    \Huge{\textbf{Auxiliar 4}}\\
+	\textit{\large{Ritmos de convergencia}}\\
+    \normalsize
+	11 de abril de 2025
+\end{center}
+
+\begin{enumerate}
+	\item \textbf{(El método de Newton)} Considere \( f \in C^2 \) con Hessiano \( \nabla^2 f(x) \) \( L \)-Lipschitz en una vecindad de \( x^* = \argmin(f) \) en el que se cumplen las condiciones suficientes de optimalidad de segundo orden. Con esto, considere la iteración a partir de \( x^0 \) dada por
+\[
+x^{k+1} = x^k - \nabla^2 f(x^k)^{-1} \nabla f(x^k)
+\]
+\begin{enumerate}
+    \item Pruebe que existe una vecindad \( V \) de \( x^* \) tal que si \( x^0 \in V \), entonces \( x^k \to x^* \) cuadráticamente.
+    \item Pruebe que en esta vecindad, la secuencia de las normas \( \left\{ \norm{\nabla f(x^k)} \right\}_{k \in \mathbb{N}} \) converge a \( 0 \) cuadráticamente.
+\end{enumerate}
+\end{enumerate}
+
+\end{document}
