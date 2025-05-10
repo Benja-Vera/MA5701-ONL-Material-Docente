@@ -1,0 +1,36 @@
+\documentclass{article}
+\input{imports.tex}
+\input{config.tex}
+
+\begin{document}
+\input{datos-ONL.tex}
+
+\begin{center}
+    \Huge{\textbf{Auxiliar 6}}\\
+\textit{\large{Preparación Control 1}}\\
+    \normalsize
+	\today
+\end{center}
+
+\begin{enumerate}
+	\item Sea \(f: \R^n \to \R\) convexa y \(L\)-suave con minimizador \(x^*\) y sea \(f^* = f(x^*)\).
+		\begin{enumerate}
+			\item Pruebe que
+				\[\forall x \in \R^n : f(x) - f^* \geq \frac{1}{2L} \norm{\grad f(x)}^2\]
+				\textit{Indicación:} Minimice con respecto a \(y\) en la desigualdad conocida siguiente:
+				\[f(y) \leq f(x) + \grad f(x)^\top (y - x) + \frac{L}{2} \norm{x-y}^2\]
+				Luego, escriba \(y - x ) = tv\) con \(t \geq 0\) y \(\norm{v} = 1\) para concluír.
+			\item Pruebe la siguiente propiedad de \textit{cocoercividad}:
+				\[\forall x, y \in \R^n : \qty(\grad f(x) - \grad f(y))^\top (x - y) \geq \frac{1}{L} \norm{\grad f(x) - \grad f{y}}^2\]
+				\textit{Indicación:} Aplique la parte (a) sobre las funciones
+				\[h_x(z) := f(z) - \grad f(x)^\top z, \qquad h_y(z) := f(z) - \grad f (y) ^\top z\]
+		\end{enumerate}
+	\item Sea ahora \(f: \R^n \to \R\) \(m\)-fuertemente convexa, \(L\)-suave y con (único) minimizador \(x^*\)
+		\begin{enumerate}
+			\item Probar que \(q(x) := f(x) - \frac{m}{2} \norm{x}^2\) es convexa y \((L - m)\)-suave.
+			\item Aplicando la propiedad de cocoercividad de la pregunta anterior sobre la función \(q\), pruebe que se cumple
+				\[\qty[\grad f(x) - \grad f(y)]^\top (x - y) \geq \frac{mL}{m+L} \norm{x - y}^2 + \frac{1}{m+L} \norm{\grad f(x) - \grad f(y)}^2\]
+		\end{enumerate}
+\end{enumerate}
+
+\end{document}
