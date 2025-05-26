@@ -1,0 +1,29 @@
+\documentclass{article}
+\input{imports.tex}
+\input{config.tex}
+
+\begin{document}
+\input{datos-ONL.tex}
+
+\begin{center}
+    \Huge{\textbf{Auxiliar 3}}\\
+\textit{\large{Método del máximo descenso}}\\
+    \normalsize
+	18 de abril de 2025
+\end{center}
+
+\begin{enumerate}
+	\item \textbf{(Método del descenso para sistemas lineales)} Sea \(A \in \R^{n \times n}\) matriz simétrica con entradas positivas en la diagonal, las cuales satisfacen la condición de dominancia estricta:
+		\[\forall i \in \qty{1, \dots, n} : a_{ii} > \sum_{j \neq i} |a_{ij}|\]
+		\begin{enumerate}
+			\item Pruebe que \(A\) es semidefinida positiva.
+			\item Nos interesa, dado \(b \in \R^n\), encontrar un método iterativo con garantías de convergencia para resolver el sistema lineal
+				\[Ax = b\]
+				en que, sin pérdida de generalidad, asumimos \(a_{ii = 1/2}\). Considere la función \(f: \R^n \to \R\) dada por
+				\[f(x) = \frac12 \qty(x^\top A x - 2b^\top x).\]
+				Pruebe que \(f\) es convexa y \(1\)-suave con respecto a una norma adecuada.
+			\item Concluya de acuerdo al teorema visto en clases.
+		\end{enumerate}
+\end{enumerate}
+
+\end{document}
