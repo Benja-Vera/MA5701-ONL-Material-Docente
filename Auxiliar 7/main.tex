@@ -1,0 +1,30 @@
+\documentclass{article}
+\input{imports.tex}
+\input{config.tex}
+
+\begin{document}
+\input{datos-ONL.tex}
+
+\begin{center}
+	\Huge{\textbf{Auxiliar 7}}\\
+	\textit{\large{Mirror Descent}}\\
+	\normalsize
+	16 de mayo de 2025
+\end{center}
+
+\begin{enumerate}
+	\item Dada \(h: \R^n \to \R\) y considerando la divergencia de Bregmann definida por
+	      \[D_h(x, z) = h(x) - h(z) - \grad h(z)^\top(x-z)\]
+	      pruebe que se tiene la siguiente identidad:
+	      \[\forall x, y, z \in \R^n : D_h(x, y) = D_h(x, z) - (x - z)^\top(\grad h(y) - \grad h(z)) + D_h(z, y)\]
+	\item Sea \(\norm{\cdot}\) una norma cualquiera sobre \(\R^n\) y \(h: \R^n \to \R\) \(m\)-fuertemente convexa con respecto a esta norma. Sea además \(f:\R^n \to \R\) convexa y \(L\)-Lipschitz con respecto a \(\norm{\cdot}\) tal que \(f\) posee un mínimo \(x^*\) sobre \(\X \subseteq \R\). Considere la iteración de Mirror Descent dada por
+	      \[x^{k+1} = \argmin_{x \in \X} \qty{ f(x^k) + \grad f(x^k)^\top(x-x^k) + \frac{1}{\alpha_k} D_h(x, x^k) }\]
+	      y sean además
+	      \[\lambda_k := \sum_{j=0}^k \alpha_j, \qquad \overline{x}^k = \frac{1}{\lambda_k} \sum_{j=0}^k \alpha_jx^j.\]
+	      Pruebe que para \(T \geq 1\) se tiene que
+	      \[f\qty(\overline{x}^T) - f^* \leq \frac{D_h(x^*, x^0) + \frac{L^2}{2m} \sum_{t=0}^T \alpha_t^2}{\sum_{t=0}^T \alpha_t}\]
+	      \textit{Indicación:} Recuerde que las condiciones necesarias de primer orden para \(x^{k+1}\) vienen dadas por
+	      \[ \qty[ \grad f(x^k) + \frac{1}{\alpha_k} \grad h(x^{k+1}) - \frac{1}{\alpha_k} \grad h(x^k)]^\top (x - x^{k+1}) \geq 0, \quad \forall x \in \X \]
+\end{enumerate}
+
+\end{document}
