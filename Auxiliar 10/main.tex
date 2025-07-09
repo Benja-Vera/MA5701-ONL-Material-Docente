@@ -1,0 +1,37 @@
+\documentclass{article}
+\input{imports.tex}
+\input{config.tex}
+
+\begin{document}
+\input{datos-ONL.tex}
+
+\begin{center}
+	\Huge{\textbf{Auxiliar 10}}\\
+	\textit{\large{Descenso de Gradiente Estocástico}}\\
+	\normalsize
+	4 de julio de 2025
+\end{center}
+
+\begin{enumerate}
+	\item Sea \(f: \R^n \to \R\) fuertemente convexa de parámetro \(m\) y \(L\)-suave. Consideremos un algoritmo que consiste en búsquedas de línea exactas a lo largo de direcciones aleatorias. El esquema para obtener la siguiente iteración \(x^+\) desde \(x\) es el siguiente:
+	      \begin{itemize}
+		      \item Escoger \(v \sim \mathcal{N}(0, \sigma^2 I)\) independiente de las iteraciones previas.
+		      \item Encontrar \(t_{\text{min}} = \argmin_{t} f(x + tv)\)
+		      \item Definir \(x^+ = x + t_{\text{min}}v\)
+	      \end{itemize}
+	      El objetivo es probar que \(\E[ f(x^T) - f(x^*) ] \leq \epsilon\) siempre que
+	      \[T \geq \frac{CnL}{m} \log\qty( \frac{f(x^0) - f(x^*)}{\epsilon})\]
+	      para algún \(C>0\). Para ello, proceda como sigue:
+	      \begin{enumerate}
+		      \item Pruebe que, dado \(v \in \R^n, t > 0\) se tiene que
+		            \[f(x + tv) \leq f(x) + \grad f^\top v + \frac{L}{2} t^2 \norm{v}^2.\]
+		      \item Para \(v\) fijo, minimice sobre \(t\) ambos lados y obtenga una cota para \(f(x + t_{\text{min}}v)\).
+		      \item Tomando esperanza a ambos lados sobre \(v\), utilice que \(\E[v_j^2 / \norm{v}^2] = \frac{1}{n}\) además de la cota conocida
+		            \[\norm{\grad f(x)}^2 \geq 2m (f(x) - f(x^*))\]
+		            para probar que
+		            \[\E_v[f(x^+) - f(x^*)] \leq  \qty(1 - \frac{m}{nL}) \qty(f(x) - f(x^*)).\]
+		      \item Concluya.
+	      \end{enumerate}
+\end{enumerate}
+
+\end{document}

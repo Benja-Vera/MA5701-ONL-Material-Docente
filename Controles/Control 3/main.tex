@@ -1,0 +1,74 @@
+\documentclass{article}
+\input{imports.tex}
+\input{config.tex}
+
+\usepackage{amsthm}
+\newtheorem{definition}{Definición}
+
+\begin{document}
+\input{datos-ONL.tex}
+
+\begin{center}
+    \Huge{\textbf{Tarea Control}}\\
+\textit{\large{Método de Penalización Externa}}\\
+    \normalsize
+	\today
+\end{center}
+
+En esta tarea estudiaremos una forma de resolver problemas convexos con restricciones lineales:
+\begin{align*}
+	\min_{x \in \R^n} & f(x) \\
+	& Ax \leq b \\
+	& Ex = e
+\end{align*}
+en que \(A \in \R^{m \times n}, b \in \R^m, E \in \R^{p \times n}, e \in \R^p\). La idea del método de penalización externa es cambiar a un problema irrestricto, cambiando la función objetivo y penalizando no estar en el conjunto factible del problema original, para esto se da la siguiente definición
+\begin{definition}[Función de penalización]
+	Una función continua \(\alpha: \R^n \to \R\) se dice \textit{función de penalización} si está dada por
+	\[\alpha(x) = \sum_{i=1}^m \phi(A_{i\bullet} x - b_i) + \sum_{j=1}^p \psi(E_{j\bullet} - e_j)\]
+	con \(\phi, \psi\) continuas en \(\R\) que cumplen:
+	\begin{enumerate}
+		\item[(i)] \(y \leq 0 \implies \phi(y) = 0, y > 0 \implies \phi(y) > 0\)
+		\item[(ii)] \(z = 0 \implies \psi(z) = 0, z \neq 0 \implies \psi(z) > 0\)
+	\end{enumerate}
+\end{definition}
+Considere para esta tarea las siguientes funciones de penalización comunmente utilizadas:
+\begin{align*}
+	\phi(y) &= \max(0, y)^2 \\
+	\psi(z) &= z^2
+\end{align*}
+El \textit{algoritmo de penalización externa} viene entonces dado por
+\begin{enumerate}
+	\item[(0)] Sean \(k = 0, x_0 \in \R^n, \mu_0 > 0, \epsilon > 0, \beta > 1\).
+	\item[(1)] Resolver el problema
+	\begin{equation}\label{problem}
+		\min_{x \in \R^n} \qty{f(x) + \mu_k \alpha(x)} \tag{$P_k$}
+	\end{equation}
+	sea \(x_{k+1}\) la solución de \ref{problem}.
+	\item[(2)] \begin{itemize}
+		\item Si \(\mu_k\alpha(x_{k+1}) < \epsilon\), parar.
+		\item Si \(\mu_k\alpha(x_{k+1}) \geq \epsilon\), hacer \(\mu_{k+1} = \beta \mu_k, k \leftarrow k+1\) y volver a (1)
+	\end{itemize}
+\end{enumerate}
+\begin{enumerate}
+	\item Implemente los métodos de Nesterov y Gradiente Estocástico con paso constante a correr durante \(N=100\) iteraciones. La llamada del método debe ser del tipo
+	\begin{itemize}
+		\item \texttt{nesterov(f, gradf, x0, alpha, beta, N=100)}
+		\item \texttt{sgd(f, gradf, x0, alpha, N=100)}
+	\end{itemize}
+	\item Considere los siguientes problemas
+	\begin{align*}
+		\min_{x,y}\; &x^2 + y^2 \\
+		& x + y + 100 \leq 0
+	\end{align*}
+	\begin{align*}
+		\min_{x,y}\; &(1 - x)^{3/2} + 100(y - x^2)^2 \\
+		& x+y \leq 5 \\
+		& x - 5y = 2
+	\end{align*}
+	Aplique el método de penalización para ambos con \(\mu_0 = 1, \beta = 2, \epsilon = 10^{-3}, (x_0, y_0) = (0, 0)\) utilizando el método de Nesterov para el paso (1). Evalúe en cuántas iteraciones para el método de penalización.
+	\item Para \(n = 1000\), sea \(f: \R^n \to \R\) dada por
+	\[f(x) = \sum_{i=1}^{n-1} \qty(50(x_{i+1} - x_i^2)^2 + (1 - x_i)^2)\]
+	y considere el problema de minimizar \(f(x)\) sujeto a \(\sum_{i=1}^n x_i = n+1\). Aplique el algoritmo de penalización utilizando \texttt{sgd} para el paso (1). Evalúe cuántas iteraciones toma el método en parar.
+\end{enumerate}
+
+\end{document}

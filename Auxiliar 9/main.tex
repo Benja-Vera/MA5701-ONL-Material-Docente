@@ -1,0 +1,41 @@
+\documentclass{article}
+\input{imports.tex}
+\input{config.tex}
+
+\begin{document}
+\input{datos-ONL.tex}
+
+\begin{center}
+	\Huge{\textbf{Auxiliar 9}}\\
+	\textit{\large{Preparación C2}}\\
+	\normalsize
+	13 de junio de 2025
+\end{center}
+
+\begin{enumerate}
+	\item Sea \(f\) convexa y considere el siguiente esquema partiendo de \(x_0 \in \R^n, y_0 = x_0\):
+	\begin{equation} \label{nesterov}
+		\left\{\begin{aligned}
+			x_k &= y_{k-1} - s \grad f (y_{k-1}) \\
+			y_k &= x_k + \frac{k-3}{k} (x_k - x_{k-1}).
+		\end{aligned}\right.
+	\end{equation}
+	Deduzca a partir de una aproximación de Taylor la siguiente ecuación diferencial para una trayectoria que sigue \(\qty{x_k}\):
+	\begin{align} \label{ODE}
+		\ddot{X} + \frac{3}{t} \dot{X} + \grad f(X) &= 0 \\
+		X(0) &= x_0 \\
+		\dot{X}(0) &= 0
+	\end{align}
+
+	\item Se puede probar que \ref{ODE} admite una única solución global para \(t \geq 0\) y que el esquema \ref{nesterov} converge a ella en el siguiente sentido:
+	\[\lim_{s \to 0} \max_{0 \leq k \leq T/\sqrt{s}} \norm{x_k - X(\sqrt{s}k)} = 0, \qquad \forall T \geq 0\]
+	\begin{enumerate}
+		\item Suponga además que \( \ddot{X}(0) := \lim_{t \to 0} \ddot{X}(t)\) existe. Pruebe la siguiente expansión asintótica para \(t\) cercano a 0:
+		\[X(t) = - \frac{\grad f(x_0)}{8}t^2 + x_0 + o(t^2)\]
+		\textit{Indicación:} Utilice el teorema del valor medio.
+		\item Sea \(f\) convexa con \(\grad f\) lipschitz y sea \(X(t)\) la única solución del problema \ref{ODE}. Pruebe que para \(t > 0\):
+		\[f(X(t)) - f^* \leq \frac{2 \norm{x_0 - x^*}^2}{t^2}\]
+	\end{enumerate}
+\end{enumerate}
+
+\end{document}

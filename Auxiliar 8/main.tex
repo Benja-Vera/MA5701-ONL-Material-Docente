@@ -1,0 +1,49 @@
+\documentclass{article}
+\input{imports.tex}
+\input{config.tex}
+
+\begin{document}
+\input{datos-ONL.tex}
+
+\begin{center}
+	\Huge{\textbf{Auxiliar 8}}\\
+	\textit{\large{Método del gradiente conjugado}}\\
+	\normalsize
+	6 de junio de 2025
+\end{center}
+
+\begin{enumerate}
+	\item Sea \(A \in \R^{n \times n}\) simétrica definida positiva.
+	\begin{enumerate}
+		\item Decimos que la colección \(\qty{p_j}_{j=0}^l\) es conjugada con respecto a \(A\) si
+		\[\forall i \neq j : p_i^\top A p_j = 0.\]
+		Pruebe que si \(\qty{p_j}_{j=0}^l\) es conjugado con respecto a \(A\), entonces es linealmente independiente.
+		\item Considere la función cuadrática \(\phi: \R^n \to \R\) dada por
+		\[\phi(x) = \frac{1}{2} x^\top A x - b^\top x\]
+		en que \(b \in \R^n\). Sea \(\qty{p_0, p_1, \dots,p_{n-1}}\) conjugado con respecto a \(A\) en \(\R^n\) y \(x_0 \in \R^n\). Consideremos la secuencia dada por
+		\begin{equation} \label{conjugate-direction-iterate}
+			x_{k+1} = x_k + \alpha_k p_k
+		\end{equation}
+		con \(\alpha_k\) escogido para minimizar \(\alpha \mapsto \phi(x_k + \alpha p_k)\). Pruebe que \(\qty{x_k}\) generado por \ref{conjugate-direction-iterate} alcanza la solución \(x^*\) del sistema lineal \(Ax = b\) en a lo más \(n\) pasos.
+		\item Sean \(\qty{p_i}_{i=0}^{n-1}\) direcciones conjugadas y sea \(\qty{x_k}\) la secuencia generada desde \(x_0 \in \R^n\) por \ref{conjugate-direction-iterate} con \(\alpha_k\) escogido como en b). Pruebe que
+		\[\forall i \in \qty{0, \dots, k-1} : r_k^\top p_i = 0\]
+		en que \(r_k = \grad f (x_k)\) y que \(x_k\) minimiza \(\phi(x)\) en el conjunto
+		\[x_0 + \langle p_0, \dots, p_{k+1} \rangle.\]
+	\end{enumerate}
+	\item En el método del gradiente conjugado, las direcciones de búsqueda de obtienen mediante la siguiente fórmula recursiva
+	\[p_k = -r_k + \beta_k p_{k-1}, \qquad p_0 = -r_0\]
+	en que \(\beta_k\) es escogido de tal manera que \(p_{k-1}\) y \(p_k\) sean conjugados con respecto a \(A\).
+	\begin{enumerate}
+		\item Obtenga una fórmula explícita para \(\beta_k\) y detalle el algoritmo resultante.
+		\item \textbf{(propuesto)} Suponga que \(\qty{x_k}\) generada por el método del gradiente conjugado no es la solución \(x^*\). Pruebe que se tienen las siguientes cuatro propiedades:
+		\begin{align*}
+			r_k^\top r_i &= 0 \qquad \forall i=0, \dots, k-1 \\
+			\langle r_0. \dots, r_k \rangle &= \langle r_0, Ar_0, \dots, A^k r_0 \rangle \\
+			\langle p_0, \dots, p_k \rangle &= \langle r_0, Ar_0, \dots, A^k r_0 \rangle \\
+			p_k^\top A p_i &= 0 \qquad \forall i = 0, \dots, k - 1.
+		\end{align*}
+		Concluya que entones \(\qty{x_k}\) converge a \(x^*\) en a lo más \(n\) pasos.
+	\end{enumerate}
+\end{enumerate}
+
+\end{document}

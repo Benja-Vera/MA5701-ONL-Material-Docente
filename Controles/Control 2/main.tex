@@ -1,0 +1,84 @@
+\documentclass{article}
+\input{imports.tex}
+\input{config.tex}
+
+\DeclareMathOperator{\sgn}{sgn}
+
+\begin{document}
+\input{datos-ONL.tex}
+
+\begin{center}
+    \Huge{\textbf{Control 2}}\\
+    \normalsize
+    Tiempo: 3:00\\
+    \today
+\end{center}
+
+\begin{enumerate}
+	\item Considere los polinomios de Chebyshev definidos recursivamente por
+	\begin{align*}
+        \T_0(x) &= 1 \\
+        \T_1(x) &= x \\
+        \T_k(x) &= 2x \T_{k-1}(x) - \T_{k-2}(x), \qquad \forall k \geq 2.
+    \end{align*}
+    Se puede obtener (no lo haga) la siguiente expresión explícita para \(\T_k(x)\):
+    \[\T_k(x) = \begin{cases}
+        \cos(k \arccos(x) ), & x \in [-1, 1] \\
+        \cosh(k\arccosh(x)), & x > 1 \\
+        (-1)^k \cosh(k\arccosh(-x)), & x < -1.
+    \end{cases}\]
+    Además, se tiene que \(\T_k\) es de grado \(k\) y que el coeficiente de mayor grado en \(T_k\) es \(2^{k-1}\)
+    \begin{enumerate}
+        \item El objetivo de esta parte es probar que
+        \[\frac{1}{2^{k-1}}\T_k = \argmin_{\substack{\deg(P) = k \\ P \text{ mónico}}} \max_{x \in [-1, 1]} |P(x)|.\]
+        Para ello, proceda como sigue:
+        \begin{enumerate}
+            \item (1 pt.) Obtenga y clasifique los valores extremos de \(\T_k\) en \([-1, 1]\).
+            \item (1 pt.) Hacia contradicción, sea ahora \(w_k(x)\) polinomio mónico de grado \(k\) tal que su mayor valor absoluto en \([-1, 1]\) es estríctamente menor que \(\frac{1}{2^{k-1}}\). Defina
+            \[f_k(x) = \frac{1}{2^{k-1}}\T_k(x) - w_k(x)\]
+            y estudie el signo de \(f_k\) en los puntos extremos obtenidos anteriormente.
+            \item (1 pt.) Concluya.
+        \end{enumerate}
+        \item (3 pt.) Considere la traslación lineal de \([\mu, L]\) a \([-1, 1]\) dada por
+        \[t^{[\mu, L]}(x) = \frac{2x - (L+\mu)}{L-\mu}\]
+        y defina los polinomios desplazados de Chebyshev:
+        \[C_k^{[\mu, L]}(x) = \frac{\T_k(t^{[\mu, L]}(x))}{\T_k(t^{[\mu, L]}(0))}\]
+        los cuales han sido reescalados para que \(C_k^{[\mu, L]}(0) = 1\). Se puede probar a partir de a) (no lo haga) que
+        \[C_k^{[\mu, L]} = \argmin_{\substack{\deg(P) = k \\ P(0) = 1}} \max_{\lambda \in [\mu, L]} |P(\lambda)|.\]
+        Obtenga la siguiente fórmula recursiva para \(C_k^{[\mu, L]}\):
+        \begin{align*}
+            C_0^{[\mu, L]}(x) &= 1 \\
+            C_1^{[\mu, L]}(x) &= 1 - \frac{2}{L + \mu}x \\
+            C_k^{[\mu, L]}(x) &= \frac{2\delta_k}{L - \mu}(L + \mu - 2x) C_{k-1}^{[\mu, L]}(x) + \qty(1 - \frac{2 \delta_k(L + \mu)}{L - \mu}) C_{k-2}^{[\mu, L]}(x), \qquad (k \geq 2)
+        \end{align*}
+        en que \(\qty{\delta_k}\) viene dado por
+        \begin{align*}
+            \delta_1 &= \frac{L - \mu}{L + \mu} \\
+            \delta_k &= - \frac{\T_{k-1}(t^{[\mu, L]}(0))}{\T_{k}(t^{[\mu, L]}(0))} = \frac{1}{2\frac{L+\mu}{L-\mu} - \delta_{k-1}}, \qquad (k \geq 2).
+        \end{align*}
+    \end{enumerate}
+    \item Sea \(f\) una función cuadrática de tipo
+    \begin{equation} \label{function-form}
+        f(x) = \frac{1}{2}x^\top H x - b^\top x
+    \end{equation}
+    con \(H\) simétrica definida positiva de valores propios \(0 < \mu = \lambda_1 \leq \dots \leq \lambda_n = L\).
+    \begin{enumerate}
+        \item (2 pt.) Pruebe que, dado \(x_0 \in \R^n\), una secuencia \(\qty{x_k}_{k \geq 0}\) cumple
+        \begin{equation} \label{iteration-form}
+            x_{k+1} \in x_0 + \langle \grad f(x_0), \dots, \grad f(x_k) \rangle, \qquad \forall k \geq 0
+        \end{equation}
+        si y solo si los errores \(\qty{x_k - x^*}_{k \geq 0}\) pueden ser escritos como
+        \[x_k - x^* = P_k(H)(x_0 - x^*)\]
+        en que \(P_k(\cdot)\) es una secuencia de polinomios tal que \(P_k\) es de grado \(k\) y \(P(0) = 1\).
+
+        \textit{Indicación:} Utilice el principio de inducción fuerte.
+        \item (2 pt.) El \textit{método semi-iterativo de Chebyshev} define sus iteraciones \(\qty{x_k}\) de modo que
+        \[x_k - x^* = C_k^{[\mu, L]}(H)(x_0 - x^*).\]
+        Utilizando la recursión de P1.b, obtenga la siguiente fórmula explícita para el método:
+        \[x_k = \frac{2\delta_k}{L - \mu} \qty((L + \mu)x_{k-1} - 2 \grad f(x_{k-1})) + \qty(1 - 2 \delta_k \frac{L+\mu}{L - \mu})x_{k-2}\]
+        \item (2 pt.) Concluya, de todo lo visto anteriormente, una propiedad de optimalidad del método semi iterativo de Chebyshev --con respecto a los métodos en la forma \ref{iteration-form}-- sobre la clase \(\M\) de funciones cuadráticas del tipo \ref{function-form} con \(H\) de valores propios entre \(0 < \mu\) y \(L\).
+    \end{enumerate}
+\end{enumerate}
+
+    
+\end{document}
