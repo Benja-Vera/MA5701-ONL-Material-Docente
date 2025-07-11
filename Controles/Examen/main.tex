@@ -1,0 +1,94 @@
+\documentclass{article}
+\input{imports.tex}
+\input{config.tex}
+
+\usepackage{amsthm}
+\newtheorem{definition}{Definición}
+
+\begin{document}
+\input{datos-ONL.tex}
+
+\begin{center}
+	\Huge{\textbf{Examen}}\\
+	\normalsize \textit{Tiempo: 3:00}\\
+	\today
+\end{center}
+
+\noindent Considérese el problema de encontrar un minimizador para:
+\begin{align*}
+	\min_x &f(x) \\
+	& g_j(x) \leq 0, \quad j \in \qty{1, \dots, m}
+\end{align*}
+en que \(f: \R^d \to \R\) tiene la forma
+\[f(x) = \frac{1}{n} \sum_{i=1}^n f_i(x)\]
+con \((f_i)_i, (g_j)_j \in \C^1(\R^d)\). Suponga que para \(0 < \mu \leq L\), las \((f_i)_i\) son convexas \(L\)-suaves y que \(f\) es \(\mu\)-fuertemente convexa. Suponga también que las \((g_j)_j\) son afines dadas por \(g_j(x) = a_j^\top x + b_j\) (\(a_j \in \R^d , b_j \in \R\)) de tal modo que el conjunto factible
+\[\X = \qty{x \in \R^d : g_j(x) \leq 0, j \in \qty{1, \dots, m}}\]
+tiene interior no vacío en \(\R^d\).
+
+Sea la función barrera logarítmica relajada \(B: \R \times \R^+ \to \R\) dada por
+\[
+B(z, \delta) = \begin{cases}
+	- \delta \log(-z), & z \leq - \delta \\
+	\frac{1}{2} \qty(\frac{(z + 2\delta)^2}{\delta} - \delta) - \delta \log(\delta), & z \geq - \delta.
+\end{cases}
+\]
+Dado \(k \in \N\) y \(\delta_k \geq \delta_{\infty} > 0\), consideremos el problema irrestricto
+\[\min_{x \in \R^d} \qty{f(x) + \frac{1}{m} \sum_{j=1}^m B(g_j(x), \delta_k)}\]
+con minimizador que denotamos por \(x^*(\delta_k)\). Dado \(\delta_\infty > 0\), consideremos el siguiente esquema de gradiente estocástico con penalización:
+\begin{equation} \label{eq:SGD}
+	x^{k+1} = x^k - \gamma \qty(\nabla f_{i_k}(x_k) + \nabla B(g_{j_k}(x_k), \delta_k))
+\end{equation}
+en que \(x_0 \in \R^d\) e \(i_k \in \qty{1, \dots, n}, j_k \in \qty{1, \dots, m}\) se escogen de manera uniforme e independiente entre iteraciones, \(\delta_k\) representa un paso positivo y \(\delta_k\) es parámetro de barrera en la iteración \(k\). El objetivo es probar que si se toma \(\qty{\gamma_k}_{k \geq 0}\) tal que
+\[\sum_{k = 0}^\infty \gamma_k = \infty, \qquad \sum_{k=0}^\infty \gamma_k^2 < \infty\]
+y \(\qty{\delta_k}_{k \geq 0}\) dada por \(\delta_k = \delta_\infty + \epsilon_k\) en que \(\qty{\epsilon_k}_{k \geq 0}\) es tal que
+\[\sum_{k=0}^\infty \gamma_k \epsilon_k < \infty,\]
+entonces para casi cualquier \(\qty{x_k}_{k \geq 0}\) dado por \eqref{eq:SGD} se cumple que \(\lim_{k \to \infty} x_k = x^*(\delta_\infty)\). Para esto, procedemos como sigue:
+\begin{enumerate}
+	\item Sea \(\tilde{x}_k = x_k - x^*(\delta_\infty)\).
+	\begin{enumerate}
+		\item Pruebe que
+		\begin{align*}
+			\E_k\qty[\norm{\tilde{x}_{k+1}}^2] &= \norm{\tilde{x}_k}^2 + \gamma_k^2 \E_k \qty[\norm{\nabla \Phi_{i_k, j_k} (x_k)}^2] + \gamma_k^2 \E_k \qty[\norm{\nabla C_{j_k} (x_k, \delta_k)}^2] \\
+			&- 2 \gamma_k \E_k  [\nabla \Phi_{i_k, j_k}(x_k)^\top \tilde{x}_k] + 2 \gamma_k \E_k \qty[ \nabla C_{j_k} (x, k, \delta_k)^\top \tilde{x}_k ] \\
+			&- 2\gamma_k^2 \E_k \qty[ \nabla \Phi_{i_k, j_k}(x_k) ^\top \nabla C_{j_k} (x_k, \delta_k)]
+		\end{align*}
+		en que
+		\begin{align*}
+			\nabla \Phi_{i_k, j_k} (x_k) &= \nabla f_{i_k} (x_k) + \nabla B (g_{j_k}(x_k), \delta_\infty) \\
+			\nabla C_{j_k} (g(x_k), \delta_k) &= \nabla B(g_{j_k}(x_k), \delta_\infty) - \nabla B (g_{j_k}(x_k), \delta_k)
+		\end{align*}
+		\item Sea \(\Phi: \R^d \to \R\) dada por
+		\[\Phi(x_k) = \frac{1}{n} \sum_{i=1}^n f_i(x_k) + \frac{1}{m} \sum_{j=1}^m B( g_j(x_k), \delta_\infty).\]
+		Muestre que
+		\[\E_k \qty[ \nabla \Phi_{i_k, j_k}(x_k)^\top \tilde{x}_k] = \nabla \Phi(x_k)^\top \tilde{x}_k\]
+		y utilice la fuerte convexidad de \(f\) para obtener que
+		\[-2\gamma_k \nabla \Phi(x_k)^\top \tilde{x}_k \leq -2 \gamma_k \Phi_0(x_k) - \mu \gamma_k \norm{\tilde{x}_k}^2\]
+		en que \(\Phi_0(u) = \Phi(u) - \Phi(x^*(\delta_\infty))\).
+		\item Utilizando lo anterior, concluya que
+		\begin{align*}
+			\E_k \qty[\norm{\tilde{x}_k}^2] &\leq \norm{\tilde{x}_k}^2 + 2 \gamma_k^2 \E_k \qty[\norm{\nabla \Phi_{i_k, j_k}(x_k)}^2] + 2 \gamma_k^2 \E_k \qty[\norm{\nabla C_{j_k}(x_k, \delta_k)}^2]\\
+			&- \mu \gamma_k \norm{\tilde{x}_k}^2  - 2 \gamma_k \Phi_0(x_k) + 2 \gamma_k \E_k \qty[\norm{\nabla C_{j_k}(x_k, \delta_k)} \norm{\tilde{x}_k}].
+		\end{align*}
+		\textit{Indicación:} Recuerde que \(2 u^\top v \leq 2 \norm{u} \norm{v} \leq \norm{u}^2 + \norm{v}^2\).
+	\end{enumerate}
+	\item Se puede probar (no lo haga) que existen constantes positivas \(\hat{c}, \bar{a}, \bar{\bar{a}}, \hat{a}, \bar{b}, \bar{\bar{b}}\) tales que
+	\begin{align*}
+		\E_k \qty[ \norm{\nabla C_{j_k}(x_k, \delta_k)} \norm{\tilde{x}_k}] & \leq \norm{\tilde{x}_k}^2 \qty( \bar{\bar{a}}  \frac{\epsilon_k}{\delta_k \delta_\infty} + \hat{c} \epsilon_k \bar{a} + \bar{b} \frac{\epsilon_k}{\delta_k \delta_\infty}) + \frac{\hat{c} \epsilon_k}{4} \bar{a} + \frac{1}{4} \bar{b} \frac{\epsilon_k}{\delta_k \delta_\infty} \\
+		\E_k\qty[\norm{\nabla C_{j_k}(x_k, \delta_k)}^2] &\leq 3 \hat{a} \frac{\epsilon_k^2 \norm{\tilde{x}_k}^2}{\delta_k^2 \delta_\infty^2} + 3 \hat{c}^2 \epsilon_k^2 \bar{\bar{a}} + \frac{3 \bar{\bar{b}} \epsilon_k^2}{\delta_k^2 \delta_\infty^2} \\
+		\E_k \qty[\norm{\nabla \Phi_{i_k, j_k}(x_k)}^2] & \leq  4\hat{L} \Phi_0(x_k) + 2 \sigma_\Phi
+	\end{align*}
+	con \(\hat{L} > 0, \sigma_\Phi \geq 0\).
+	\begin{enumerate}
+		\item Muestre que, para \(\xi_k, r_k\) a definir:
+		\[\E_k \qty[\norm{\tilde{x}_{k+1}}^2] \leq \qty(1 - \gamma_k (\mu - \xi_k)) \norm{\tilde{x}_k}^2 - 2 \gamma_k (1 - 4\gamma_k \hat{L}) \Phi_0(x_k) + \gamma_k \epsilon_k r_k + 4 \gamma_k^2 \sigma_\Phi \]
+		\item Utilizando lo encontrado, pruebe que existe \(k_0 \geq 0\) tal que para \(k \geq k_0\):
+		\[\mu - \xi_k > 0, \qquad \gamma_k (1 - 4 \gamma_k \hat{L}) \geq 0.\]
+		Concluya que para \(k \geq k_0\),
+		\[\E_k \qty[\norm{\tilde{x}_{k+1}}^2] \leq \qty(1 - \gamma_k (\mu - \xi_k)) \norm{\tilde{x}_k}^2 + \gamma_k \epsilon_k r_k + 4 \gamma_k^2 \sigma_\Phi \]
+		y que las iteraciones \(\tilde{x}_k\) están acotadas casi seguramente.
+	\end{enumerate}
+\end{enumerate}
+
+
+
+\end{document}
